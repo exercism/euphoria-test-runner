@@ -1,4 +1,4 @@
-FROM ubuntu:bionic
+FROM ubuntu:bionic-20230308
 LABEL maintainer="Greg Haberek <ghaberek@gmail.com> and Bruce Axtens <bruce.axtens@gmail.com>"
 ADD https://github.com/OpenEuphoria/euphoria/releases/download/4.1.0/euphoria-4.1.0-Linux-x64-57179171dbed.tar.gz /tmp
 ENV PATH=/usr/local/euphoria-4.1.0-Linux-x64/bin:$PATH
