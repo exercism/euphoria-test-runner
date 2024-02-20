@@ -1,10 +1,9 @@
 include std/filesys.e
 include std/cmdline.e
 include std/io.e
-include std/sequence.e
+include std/sequence.e as seq
 include std/search.e as srch
 include std/regex.e as re
-include std/pretty.e
 include std/text.e
 include std/convert.e
 
@@ -46,7 +45,8 @@ procedure process(sequence slug, sequence soln_folder, sequence outp_folder)
             result = match("% success", data[i])
             if result then
                 failure = i 
-                failmsg = trim(data[i])
+                sequence parts = seq:split(data[i],", ") 
+                failmsg = trim(parts[3])
                 exit
             end if
         end if 
