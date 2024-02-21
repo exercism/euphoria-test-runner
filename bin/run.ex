@@ -7,6 +7,18 @@ include std/regex.e as re
 include std/text.e
 include std/convert.e
 
+--with trace
+
+function failures(sequence txt)
+    sequence parts = seq:split(txt,", ")    
+    for i = 1 to length(parts) do
+        if match("failed",parts[i]) then
+            return parts[i]
+        end if
+    end for
+    return ""
+end function
+
 procedure process(sequence slug, sequence soln_folder, sequence outp_folder)
     sequence solution_dir=canonical_path(soln_folder)
     sequence output_dir=canonical_path(outp_folder)
@@ -41,12 +53,11 @@ procedure process(sequence slug, sequence soln_folder, sequence outp_folder)
         else
             integer result = match("100% success", data[i])
             if result then exit end if
-                
+            trace(1)
             result = match("% success", data[i])
             if result then
                 failure = i 
-                sequence parts = seq:split(data[i],", ") 
-                failmsg = trim(parts[3])
+                failmsg = failures(data[i])
                 exit
             end if
         end if 
