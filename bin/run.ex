@@ -71,15 +71,19 @@ procedure process(sequence slug, sequence soln_folder, sequence outp_folder)
     sequence output_dir = canonical_path(outp_folder)
     sequence results_file = join_path({output_dir, "/results.json"})
 
+    puts(1, solution_dir & "\n")
+    puts(1, output_dir & "\n")
+    puts(1, results_file & "\n")
+
     create_directory(output_dir)
     printf(1, "%s: testing...", {slug})
-    sequence outfile = join_path({SLASH & output_dir,"t_" & slug & ".out"})
-    sequence cmd = build_commandline({"eutest",join_path({SLASH & solution_dir,"t_" & slug & ".e"}),">", outfile})
+    sequence outfile = join_path({output_dir,"t_" & slug & ".out"})
+    sequence cmd = build_commandline({"eutest",join_path({solution_dir,"t_" & slug & ".e"}),">", outfile})
     system(cmd,2)
 
-    atom fh = open(outfile, "r")
-    sequence data = read_lines(fh)
-    close(fh)
+    atom ifh = open(outfile, "r")
+    sequence data = read_lines(ifh)
+    close(ifh)
 
     sequence status = "pass"
     sequence message = ""
@@ -110,9 +114,9 @@ procedure process(sequence slug, sequence soln_folder, sequence outp_folder)
         }
     }
 
-    fh = open(results_file,"w")
-    json_print(fh, JSON, false)
-    close(fh)
+    atom ofh = open(results_file,"w")
+    json_print(ofh, JSON, false)
+    close(ofh)
 end procedure
 
 sequence cmdline = command_line()
