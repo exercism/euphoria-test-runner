@@ -24,7 +24,6 @@ fi
 slug="$1"
 solution_dir=$(realpath "${2%/}")
 output_dir=$(realpath "${3%/}")
-results_file="${output_dir}/results.json"
 
 # Create the output directory if it doesn't exist
 mkdir -p "${output_dir}"
@@ -33,6 +32,6 @@ echo "${slug}: testing..."
 
 # Run the tests for the provided implementation file and redirect stdout and
 # stderr to capture it
-eui bin/run.ex "${slug}" ${solution_dir} "${output_dir}"
+eui bin/run.ex "${slug}" "${solution_dir}/" "${output_dir}/"
 
 echo "${slug}: done"
