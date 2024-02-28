@@ -71,9 +71,9 @@ procedure process(sequence slug, sequence soln_folder, sequence outp_folder)
     sequence output_dir = canonical_path(outp_folder)
     sequence results_file = join_path({output_dir, "/results.json"})
 
-    puts(1, solution_dir & "\n")
-    puts(1, output_dir & "\n")
-    puts(1, results_file & "\n")
+    --puts(1, solution_dir & "\n")
+    --puts(1, output_dir & "\n")
+    --puts(1, results_file & "\n")
 
     create_directory(output_dir)
     printf(1, "%s: testing...", {slug})
