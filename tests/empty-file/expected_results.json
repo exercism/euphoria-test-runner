@@ -1,1 +1,1 @@
-{"version":1,"status":"fail","message":"Files (run: 1) (failed: 1) (0% success)"}
+{"version":1,"status":"error","message":"<0074>:: Errors resolving the following references: 'leap' (tests/empty-file/t_empty-file.e:7) has not been declared."}
