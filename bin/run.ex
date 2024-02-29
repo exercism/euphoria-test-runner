@@ -15,6 +15,11 @@ integer false = 0
 integer true = not false
 re:regex err_id = re:new("<([0-9]+)>::(.*)")
 
+function tee_name_and_contents(sequence filename) 
+    -- display the filename then read and display contents
+    return filename
+end function 
+
 function first_failure(sequence lines, sequence fallback)
     for i = 1 to length(lines) do
         sequence line = lines[i]
@@ -71,19 +76,21 @@ procedure process(sequence slug, sequence soln_folder, sequence outp_folder)
     sequence output_dir = canonical_path(outp_folder)
     sequence results_file = join_path({output_dir, "/results.json"})
 
-    --puts(1, solution_dir & "\n")
-    --puts(1, output_dir & "\n")
-    --puts(1, results_file & "\n")
+    puts(1, solution_dir & "\n")
+    puts(1, output_dir & "\n")
+    puts(1, results_file & "\n")
 
     create_directory(output_dir)
     printf(1, "%s: testing...", {slug})
     sequence outfile = join_path({output_dir,"t_" & slug & ".out"})
+    -- echo the outfile
     sequence cmd = build_commandline({"eutest",join_path({solution_dir,"t_" & slug & ".e"}),">", outfile})
     system(cmd,2)
-
+    -- echo the test file's path and contents
     atom ifh = open(outfile, "r")
     sequence data = read_lines(ifh)
     close(ifh)
+    -- echo the contents of the outfile
 
     sequence status = "pass"
     sequence message = ""
@@ -117,11 +124,13 @@ procedure process(sequence slug, sequence soln_folder, sequence outp_folder)
     atom ofh = open(results_file,"w")
     json_print(ofh, JSON, false)
     close(ofh)
+    -- echo the contents of the results_file
 end procedure
 
 sequence cmdline = command_line()
 if (length(cmdline) < 5) then
     puts(1, "usage: eui ./bin/run.ex exercise-slug path/to/solution/folder/ path/to/output/directory/\n")
 else
+    -- echo the invocation
     process(cmdline[3], cmdline[4], cmdline[5])
 end if
