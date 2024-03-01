@@ -78,7 +78,7 @@ procedure process(sequence slug, sequence soln_folder, sequence outp_folder)
     create_directory(output_dir)
     printf(1, "%s: testing...", {slug})
     sequence outfile = join_path({output_dir,"t_" & slug & ".out"})
-    sequence cmd = build_commandline({"eutest",join_path({solution_dir,"t_" & slug & ".e"}),">", outfile})
+    sequence cmd = build_commandline({"eui","-batch","-d","UNITTEST",join_path({solution_dir,"t_" & slug & ".e"}),"2>", outfile})
     system(cmd,2)
 
     atom ifh = open(outfile, "r")
