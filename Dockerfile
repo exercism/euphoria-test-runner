@@ -1,4 +1,4 @@
-FROM ubuntu:24.04@sha256:c4a8d5503dfb2a3eb8ab5f807da5bc69a85730fb49b5cfca2330194ebcc41c7b
+FROM ubuntu:26.04@sha256:f3d28607ddd78734bb7f71f117f3c6706c666b8b76cbff7c9ff6e5718d46ff64
 
 ARG OPEN_EUPHORIA_ARCH=Linux-x64
 ARG OPEN_EUPHORIA_VERSION=4.1.0
@@ -13,7 +13,7 @@ RUN apt-get update && \
 RUN filename="euphoria-${OPEN_EUPHORIA_VERSION}-${OPEN_EUPHORIA_ARCH}-${OPEN_EUPHORIA_SHA}.tar.gz" && \
     curl -L -O "https://github.com/OpenEuphoria/euphoria/releases/download/${OPEN_EUPHORIA_VERSION}/${filename}" && \
     tar -xzf "${filename}" -C /usr/local && \
-    rm -f "${filename}" && \
+    rm "${filename}" && \
     cd /usr/local/bin && \
     find "/usr/local/euphoria-${OPEN_EUPHORIA_VERSION}-${OPEN_EUPHORIA_ARCH}/bin" -type f -executable -exec ln -s {} \; && \
     eui --version
