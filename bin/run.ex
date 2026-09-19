@@ -15,13 +15,49 @@ integer false = 0
 integer true = not false
 re:regex err_id = re:new("<([0-9]+)>::(.*)")
 
+function is_test_result(sequence line)
+    return is_passed_test(line) or is_failed_test(line)
+end function
+
+function is_test_summary(sequence line)
+    sequence trimmed_line = trim(line)
+    if length(trimmed_line) = 0 then
+        return false
+    end if
+    atom first = trimmed_line[1]
+    return first >= '0' and first <= '9' and match(" tests run,", trimmed_line)
+end function
+
+function is_failed_test(sequence line)
+    return starts_with(line, "failed:")
+end function
+
+function is_passed_test(sequence line)
+    return starts_with(line, "passed:")
+end function
+
+function starts_with(sequence line, sequence prefix)
+    return match(prefix, trim(line)) = 1
+end function
+
 function first_failure(sequence lines, sequence fallback)
+    integer capturing = false
+    sequence message = ""
     for i = 1 to length(lines) do
         sequence line = lines[i]
-        if match("failed:", line) then
-            return trim(line)
+        if capturing then
+            if is_test_result(line) or is_test_summary(line) then
+                return message
+            end if
+            message &= "\n" & line
+        elsif is_failed_test(line) then
+            capturing = true
+            message = trim(line)
         end if
     end for
+    if capturing then
+        return message
+    end if
     return fallback
 end function
 
