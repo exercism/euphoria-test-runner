@@ -1,0 +1,1 @@
+{"version":1,"status":"fail","message":"failed: reports complete multiline failure, expected: {\n  {\n    \"answer\",\n    42\n  }\n} but got: {\n  {\n    \"answer\",\n    0\n  }\n}"}
